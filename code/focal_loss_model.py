@@ -114,8 +114,8 @@ def ctc_crnn(params):
     alpha=0.5
     gamma=0.5
     ctc_loss = tf.nn.ctc_loss(labels=targets, inputs=logits, sequence_length=seq_len, time_major=True)
-    p=tf.exp(-ctc_loss)
-    focal_ctc_loss=((alpha)*((1-p)**gamma)*(ctc_loss))
+    comp_p=-tf.expm1(-ctc_loss)
+    focal_ctc_loss=((alpha)*(comp_p**gamma)*(ctc_loss))
     loss = tf.reduce_mean(focal_ctc_loss)
     
 
